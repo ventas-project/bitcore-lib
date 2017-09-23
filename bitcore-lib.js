@@ -9577,6 +9577,8 @@ Transaction.prototype.toBuffer = function() {
 
 Transaction.prototype.toBufferWriter = function(writer) {
     writer.writeUInt32LE(this.version);
+
+    writer.writeUInt32LE(this.nTime);
     writer.writeVarintNum(this.inputs.length);
     _.each(this.inputs, function(input) {
         input.toBufferWriter(writer);
@@ -55126,12 +55128,13 @@ var bitcore = module.exports;
 // module information
 bitcore.version = 'v' + require('./package.json').version;
 bitcore.versionGuard = function(version) {
-  if (version !== undefined) {
-    var message = 'More than one instance of bitcore-lib found. ' + 
-      'Please make sure to require bitcore-lib and check that submodules do' +
-      ' not also include their own bitcore-lib dependency.';
-    throw new Error(message);
-  }
+    if (version !== undefined) {
+        var message = 'More than one instance of bitcore-lib found. ' +
+            'Please make sure to require bitcore-lib and check that submodules do' +
+            ' not also include their own bitcore-lib dependency.';
+        //  throw new Error(message);
+        console.log("check bitcore lib");
+    }
 };
 bitcore.versionGuard(global._bitcore);
 global._bitcore = bitcore.version;
@@ -55189,6 +55192,5 @@ bitcore.deps._ = require('lodash');
 // Internal usage, exposed for testing/advanced tweaking
 bitcore._HDKeyCache = require('./lib/hdkeycache');
 bitcore.Transaction.sighash = require('./lib/transaction/sighash');
-
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
 },{"./lib/address":1,"./lib/block":4,"./lib/block/blockheader":3,"./lib/block/merkleblock":5,"./lib/crypto/bn":6,"./lib/crypto/ecdsa":7,"./lib/crypto/hash":8,"./lib/crypto/point":9,"./lib/crypto/random":10,"./lib/crypto/signature":11,"./lib/encoding/base58":12,"./lib/encoding/base58check":13,"./lib/encoding/bufferreader":14,"./lib/encoding/bufferwriter":15,"./lib/encoding/varint":16,"./lib/errors":17,"./lib/hdkeycache":19,"./lib/hdprivatekey.js":20,"./lib/hdpublickey.js":21,"./lib/networks":22,"./lib/opcode":23,"./lib/privatekey":24,"./lib/publickey":25,"./lib/script":26,"./lib/transaction":29,"./lib/transaction/sighash":37,"./lib/unit":41,"./lib/uri":42,"./lib/util/buffer":43,"./lib/util/js":44,"./lib/util/preconditions":45,"./package.json":256,"bn.js":63,"bs58":110,"buffer":113,"elliptic":151,"lodash":194}]},{},[]);
